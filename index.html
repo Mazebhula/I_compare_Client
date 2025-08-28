@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Denzhe</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="app.js"></script>
+</head>
+<body class="light">
+    <nav class="navbar">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a href="index.html">Home</a></li>
+            <li class="nav-item"><a href="about.html">About</a></li>
+            <li class="nav-item"><a href="contact.html">Contact Me</a></li>
+            <li class="nav-item"><a href="theme.html">Theme</a></li>
+        </ul>
+    </nav>
+    <header>
+        <h1>I_COMPARE</h1>
+        <p>let's compare curriculli</p>
+    </header>
+    <section class="content">
+        <p>upload your two curriculli bellow to compare them</p>
+        <h2>Upload Two PDFs</h2>
+        <form id="pdf-upload-form" enctype="multipart/form-data">
+            <div class="upload-group">
+                <label for="pdf1">Document 1:</label>
+                <input type="file" id="pdf1" name="pdf1" accept="application/pdf" required>
+            </div>
+            <div class="upload-group">
+                <label for="pdf2">Document 2:</label>
+                <input type="file" id="pdf2" name="pdf2" accept="application/pdf" required>
+            </div>
+            <button type="submit">Upload PDFs</button>
+        </form>
+        <div id="upload-status"></div>
+        <div class="results">
+            <div class="result-panel">
+                <h3>PDF 1 Analysis</h3>
+                <div id="result1" class="result-content"></div>
+            </div>
+            <!-- <div class="result-panel">
+                <h3>PDF 2 Analysis</h3>
+                <div id="result2" class="result-content"></div>
+            </div> -->
+        </div>
+    </section>
+    <footer>created by DZEBU DS</footer>
+</body>
+</html>
