@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (form) {
         form.addEventListener('submit', async function (e) {
+            result1Div.innerHTML = '';
             e.preventDefault();
 
             const pdf1 = document.getElementById('pdf1').files[0];
@@ -45,4 +46,59 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    // Chat functionality
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatMessages = document.getElementById('chat-messages');
+
+    if (chatForm) {
+    chatForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const userMessage = chatInput.value.trim();
+        if (!userMessage) return;
+
+        // Display user message
+        const userMsgDiv = document.createElement('div');
+        userMsgDiv.textContent = "You: " + userMessage;
+        userMsgDiv.style.fontWeight = "bold";
+        chatMessages.appendChild(userMsgDiv);
+
+        chatInput.value = "";
+
+        // Send message to backend
+        try {
+            const response = await fetch('http://localhost:8080/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: userMessage })
+            });
+
+            if (!response.ok) {
+                throw new Error(`Server error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            const aiMsgDiv = document.createElement('div');
+            if (data.status === "success") {
+                const responseParts = (data.response || "").split("</think>");
+                aiMsgDiv.textContent = "AI: " + (responseParts[1] ? responseParts[1].trim() : "No response");
+            } else {
+                aiMsgDiv.textContent = "AI Error: " + (data.message || "Unknown error");
+                aiMsgDiv.style.color = "red";
+            }
+            chatMessages.appendChild(aiMsgDiv);
+
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        } catch (err) {
+            console.error("Raw response error:", err);
+            const errorDiv = document.createElement('div');
+            errorDiv.textContent = "Error: " + err.message;
+            errorDiv.style.color = "red";
+            chatMessages.appendChild(errorDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    });
+}
 });
